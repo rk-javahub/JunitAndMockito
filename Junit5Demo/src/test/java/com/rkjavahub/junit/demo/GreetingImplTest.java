@@ -1,16 +1,15 @@
 package com.rkjavahub.junit.demo;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GreetingImplTest {
 
 	private Greeting greeting;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		System.out.println("Inside initial setup");
 		greeting = new GreetingImpl();
@@ -22,25 +21,29 @@ public class GreetingImplTest {
 		String message = greeting.greet("Junit");
 
 		// Checking for null
-		assertNotNull(message);
+		Assertions.assertNotNull(message);
 
 		// Checking actual vs expected message are same or not
-		assertEquals("Hello Junit", message);
+		Assertions.assertEquals("Hello Junit", message);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test()
 	public void greetShouldThrowIllegalArgumentExceptionFor_NameIsNull() {
 		System.out.println("Inside greetShouldThrowIllegalArgumentExceptionFor_NameIsNull testcase");
-		greeting.greet(null);
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			greeting.greet(null);
+		});
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test()
 	public void greetShouldThrowIllegalArgumentExceptionFor_NameIsEmpty() {
 		System.out.println("Inside greetShouldThrowIllegalArgumentExceptionFor_NameIsEmpty testcase");
-		greeting.greet("");
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			greeting.greet("");
+		});
 	}
 
-	@After
+	@AfterEach
 	public void tearDownProcess() {
 		System.out.println("Inside teardown method");
 		greeting = null;
